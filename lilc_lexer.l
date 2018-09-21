@@ -74,6 +74,9 @@ WHITESPACE   [ \t]
 		charNum = 1;
             }
 
+("//"|"#")(.)* {
+		lineNum++;
+            }
 
 {WHITESPACE}+	{
 		charNum += yyleng;
