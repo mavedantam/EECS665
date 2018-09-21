@@ -123,25 +123,25 @@ WHITESPACE   [ \t]
 
 "<<"		{
 		yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::WRITE);
-		charNum++;
+		charNum+=2;
 		return TokenTag::WRITE;
 	    	}
 
 ">>"		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::READ);
-		charNum++;
+		charNum+=2;
 		return TokenTag::READ;
 	    	}
 
 "++"		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::PLUSPLUS);
-		charNum++;
+		charNum+=2;
 		return TokenTag::PLUSPLUS;
 	    	}
 
 "--"		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::MINUSMINUS);
-		charNum++;
+		charNum+=2;
 		return TokenTag::MINUSMINUS;
 	    	}
 
@@ -177,25 +177,25 @@ WHITESPACE   [ \t]
 
 "&&"		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::AND);
-		charNum++;
+		charNum+=2;
 		return TokenTag::AND;
 	    	}
 
 "||"		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::OR);
-		charNum++;
+		charNum+=2;
 		return TokenTag::OR;
 	    	}
 
 "=="		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::EQUALS);
-		charNum++;
+		charNum+=2;
 		return TokenTag::EQUALS;
 	    	}
 
 "!="		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::NOTEQUALS);
-		charNum++;
+		charNum+=2;
 		return TokenTag::NOTEQUALS;
 	    	}
 
@@ -213,13 +213,13 @@ WHITESPACE   [ \t]
 
 "<="		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::LESSEQ);
-		charNum++;
+		charNum+=2;
 		return TokenTag::LESSEQ;
 	    	}
 
 ">="		{
 	  yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::GREATEREQ);
-		charNum++;
+		charNum+=2;
 		return TokenTag::GREATEREQ;
 	    	}
 
