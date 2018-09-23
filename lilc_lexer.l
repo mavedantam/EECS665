@@ -296,7 +296,7 @@ LETTER [a-z][A-Z]
 		return TokenTag::RETURN;
 				}
 
-({LETTER}|{DIGIT})+({LETTER}|{DIGIT}|"_")*		{
+({LETTER}|"_")+({LETTER}|{DIGIT}|"_")*		{
 	yylval->symbolValue = new IDToken(lineNum, charNum, yytext);
 	charNum+=yyleng;
 	return TokenTag::ID;
