@@ -54,7 +54,7 @@ namespace LILC{
 
 DIGIT [0-9]
 WHITESPACE   [ \t]
-LETTER [a-z][A-Z]
+LETTER [a-zA-Z]
 
 %%
 %{          /** Code executed at the beginning of yylex **/
