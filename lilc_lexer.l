@@ -1,6 +1,7 @@
 %{
 #include <string>
 #include <limits.h>
+#include <stdexcept>
 
 /* Provide custom yyFlexScanner subclass and specify the interface */
 #include "lilc_scanner.hpp"
@@ -63,7 +64,16 @@ LETTER [a-z][A-Z]
 {DIGIT}+	{
 		//Note: the following computation of the integer value
 		// does NOT check for overflow. This must be changed
-		int intVal = atoi(yytext);
+		int intVal;
+		try
+		{
+			intVal = std::stoi(yytext, nullptr);
+		}
+		catch (std::out_of_range& oor)
+		{
+			intVal = INT_MAX;
+			error(lineNum, charNum, "IntLit value over maximum int value. Using maximum int value.");
+		}
                 yylval->symbolValue = new IntLitToken(lineNum, charNum, intVal);
 		charNum += yyleng;
                 return TokenTag::INTLITERAL; 
