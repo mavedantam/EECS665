@@ -38,11 +38,13 @@ test: P2
 	./P2 ${TESTDIR}eofToken.in ${TESTDIR}eofToken.output
 	./P2 ${TESTDIR}comments.in ${TESTDIR}comments.output
 	./P2 ${TESTDIR}illegalCharacters.in ${TESTDIR}illegalCharacters.output
+	./P2 ${TESTDIR}intlitOverMax.in ${TESTDIR}intlitOverMax.output
 	diff ${TESTDIR}keywordTokens.output ${TESTEXPDIR}keywordTokens.output || echo '\nUNEXPECTED ERROR IN keywordTokens OUTPUT\n'
 	diff ${TESTDIR}operatorTokens.output ${TESTEXPDIR}operatorTokens.output || echo '\nUNEXPECTED ERROR IN operatorTokens OUTPUT\n'
 	diff ${TESTDIR}eofToken.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN eofToken OUTPUT\n'
 	diff ${TESTDIR}comments.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN comment OUTPUT\n'
 	diff ${TESTDIR}illegalCharacters.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN illegalCharacters OUTPUT\n'
+	diff ${TESTDIR}intlitOverMax.output ${TESTEXPDIR}intlitOverMax.output || echo '\nUNEXPECTED ERROR IN intlitOverMax OUTPUT\n'
 
 cleantest: test
 	rm test/*.output
