@@ -76,7 +76,7 @@ LETTER [a-z][A-Z]
 		}
                 yylval->symbolValue = new IntLitToken(lineNum, charNum, intVal);
 		charNum += yyleng;
-                return TokenTag::INTLITERAL; 
+                return TokenTag::INTLITERAL;
 		}
 
 \n          {
@@ -247,6 +247,12 @@ LETTER [a-z][A-Z]
 		return TokenTag::BOOL;
 				}
 
+"int"   {
+		yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::BOOL);
+		charNum+=yyleng;
+		return TokenTag::INT;
+				}
+
 "void" {
 		yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::VOID);
 		charNum+=yyleng;
@@ -304,6 +310,12 @@ LETTER [a-z][A-Z]
 		yylval->symbolValue = new NullaryToken(lineNum, charNum, TokenTag::RETURN);
 		charNum+=yyleng;
 		return TokenTag::RETURN;
+				}
+
+"\""(("\n"|"\t"|"\'"|"\""|"\?"|"\\")|(^\n\"\\))*"\""	{
+	yylval->symbolValue = new StringLitToken(lineNum, charNum, yytext);
+	charNum+=yyleng;
+	return TokenTag::STRINGLITERAL;
 				}
 
 ({LETTER}|"_")+({LETTER}|{DIGIT}|"_")*		{
