@@ -40,6 +40,7 @@ test: P2
 	./P2 ${TESTDIR}illegalCharacters.in ${TESTDIR}illegalCharacters.output 2> ${TESTDIR}illegalCharacters.err
 	./P2 ${TESTDIR}intlitOverMax.in ${TESTDIR}intlitOverMax.output 2> ${TESTDIR}intlitOverMax.err
 	./P2 ${TESTDIR}identifierTokens.in ${TESTDIR}identifierTokens.output
+	./P2 ${TESTDIR}whitespace.in ${TESTDIR}whitespace.output
 	diff ${TESTDIR}keywordTokens.output ${TESTEXPDIR}keywordTokens.output || echo '\nUNEXPECTED ERROR IN keywordTokens OUTPUT\n'
 	diff ${TESTDIR}operatorTokens.output ${TESTEXPDIR}operatorTokens.output || echo '\nUNEXPECTED ERROR IN operatorTokens OUTPUT\n'
 	diff ${TESTDIR}eofToken.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN eofToken OUTPUT\n'
@@ -49,6 +50,7 @@ test: P2
 	diff ${TESTDIR}intlitOverMax.output ${TESTEXPDIR}intlitOverMax.output || echo '\nUNEXPECTED ERROR IN intlitOverMax OUTPUT\n'
 	diff ${TESTDIR}intlitOverMax.err ${TESTEXPDIR}intlitOverMax.err || echo '\nUNEXPECTED ERROR IN intlitOverMax ERROR OUTPUT\n'
 	diff ${TESTDIR}identifierTokens.output ${TESTEXPDIR}identifierTokens.output || echo '\nUNEXPECTED ERROR IN identifierTokens OUTPUT\n'
+	diff ${TESTDIR}whitespace.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN whitespace OUTPUT\n'
 
 cleantest: test
 	rm test/*.output test/*.err
