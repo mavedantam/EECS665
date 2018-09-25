@@ -55,6 +55,7 @@ namespace LILC{
 DIGIT [0-9]
 WHITESPACE   [ \t]
 LETTER [a-zA-Z]
+ESCAPE [nt\'\"?\\]
 
 %%
 %{          /** Code executed at the beginning of yylex **/
@@ -312,10 +313,25 @@ LETTER [a-zA-Z]
 		return TokenTag::RETURN;
 				}
 
-"\""(("\n"|"\t"|"\'"|"\""|"\?"|"\\")|(^\n\"\\))*"\""	{
+"\""(("\\"{ESCAPE})|[^\n\"\\])*"\""	{
 	yylval->symbolValue = new StringLitToken(lineNum, charNum, yytext);
 	charNum+=yyleng;
 	return TokenTag::STRINGLITERAL;
+				}
+
+"\""(("\\"{ESCAPE})|[^\n\"\\])*[\n]	{
+	error(lineNum, charNum,"Unterminated string literal ignored");
+	lineNum++;
+				}
+
+"\""(("\\"[^{ESCAPE}])|("\\"{ESCAPE})|[^\n\"\\])*"\""	{
+	error(lineNum, charNum,"String literal with bad escaped character ignored");
+	lineNum++;
+				}
+
+"\""(("\\"[^{ESCAPE}])|("\\"{ESCAPE})|[^\n\"\\])*[\n]	{
+	error(lineNum, charNum,"Unterminated string literal with bad escaped character ignored");
+	lineNum++;
 				}
 
 ({LETTER}|"_")+({LETTER}|{DIGIT}|"_")*		{

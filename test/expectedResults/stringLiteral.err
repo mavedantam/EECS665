@@ -1,0 +1,4 @@
+7:1 ***ERROR*** Unterminated string literal ignored
+8:1 ***ERROR*** Unterminated string literal ignored
+9:1 ***ERROR*** String literal with bad escaped character ignored
+11:1 ***ERROR*** Unterminated string literal with bad escaped character ignored
