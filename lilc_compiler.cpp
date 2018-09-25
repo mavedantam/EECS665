@@ -84,13 +84,13 @@ void LILC::LilC_Compiler::scan( const char * const infile, const char * const ou
 		case TokenTag::INTLITERAL:
 			{
 			IntLitToken * tok = (IntLitToken *)lexeme.symbolValue;
-			out << "INTLIT:" << tok->value() << std::endl;	
+			out << "INTLIT:" << tok->value() << std::endl;
 			break;
 			}
 		case TokenTag::STRINGLITERAL:
 			{
 			StringLitToken * tok = (StringLitToken *)lexeme.symbolValue;
-			out << "STRINGLIT:" << tok->value() << std::endl;	
+			out << "STRINGLIT:" << tok->value() << std::endl;
 			break;
 			}
 		case TokenTag::LCURLY:
@@ -160,7 +160,7 @@ void LILC::LilC_Compiler::scan( const char * const infile, const char * const ou
 			out << ">" << std::endl;
 			break;
 		case TokenTag::LESSEQ:
-			out << ">=" << std::endl;
+			out << "<=" << std::endl;
 			break;
 		case TokenTag::GREATEREQ:
 			out << ">=" << std::endl;

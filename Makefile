@@ -37,14 +37,23 @@ test: P2
 	./P2 ${TESTDIR}operatorTokens.in ${TESTDIR}operatorTokens.output
 	./P2 ${TESTDIR}eofToken.in ${TESTDIR}eofToken.output
 	./P2 ${TESTDIR}comments.in ${TESTDIR}comments.output
-	./P2 ${TESTDIR}illegalCharacters.in ${TESTDIR}illegalCharacters.output
-	./P2 ${TESTDIR}intlitOverMax.in ${TESTDIR}intlitOverMax.output
+	./P2 ${TESTDIR}illegalCharacters.in ${TESTDIR}illegalCharacters.output 2> ${TESTDIR}illegalCharacters.err
+	./P2 ${TESTDIR}intlitOverMax.in ${TESTDIR}intlitOverMax.output 2> ${TESTDIR}intlitOverMax.err
+	./P2 ${TESTDIR}identifierTokens.in ${TESTDIR}identifierTokens.output
+	./P2 ${TESTDIR}stringLiteral.in ${TESTDIR}stringLiteral.output 2> ${TESTDIR}stringLiteral.err
+	./P2 ${TESTDIR}whitespace.in ${TESTDIR}whitespace.output
 	diff ${TESTDIR}keywordTokens.output ${TESTEXPDIR}keywordTokens.output || echo '\nUNEXPECTED ERROR IN keywordTokens OUTPUT\n'
 	diff ${TESTDIR}operatorTokens.output ${TESTEXPDIR}operatorTokens.output || echo '\nUNEXPECTED ERROR IN operatorTokens OUTPUT\n'
 	diff ${TESTDIR}eofToken.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN eofToken OUTPUT\n'
-	diff ${TESTDIR}comments.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN comment OUTPUT\n'
+	diff ${TESTDIR}comments.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN comments OUTPUT\n'
 	diff ${TESTDIR}illegalCharacters.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN illegalCharacters OUTPUT\n'
+	diff ${TESTDIR}illegalCharacters.err ${TESTEXPDIR}illegalCharacters.err || echo '\nUNEXPECTED ERROR IN illegalCharacters ERROR OUTPUT\n'
 	diff ${TESTDIR}intlitOverMax.output ${TESTEXPDIR}intlitOverMax.output || echo '\nUNEXPECTED ERROR IN intlitOverMax OUTPUT\n'
+	diff ${TESTDIR}intlitOverMax.err ${TESTEXPDIR}intlitOverMax.err || echo '\nUNEXPECTED ERROR IN intlitOverMax ERROR OUTPUT\n'
+	diff ${TESTDIR}identifierTokens.output ${TESTEXPDIR}identifierTokens.output || echo '\nUNEXPECTED ERROR IN identifierTokens OUTPUT\n'
+	diff ${TESTDIR}stringLiteral.output ${TESTEXPDIR}stringLiteral.output || echo '\nUNEXPECTED ERROR IN stringLiteral OUTPUT\n'
+	diff ${TESTDIR}stringLiteral.err ${TESTEXPDIR}stringLiteral.err || echo '\nUNEXPECTED ERROR IN stringLiteral ERROR OUTPUT\n'
+	diff ${TESTDIR}whitespace.output ${TESTEXPDIR}eofToken.output || echo '\nUNEXPECTED ERROR IN whitespace OUTPUT\n'
 
 cleantest: test
-	rm test/*.output
+	rm test/*.output test/*.err

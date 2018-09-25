@@ -1,0 +1,9 @@
+""
+"&!88"
+"use \n to denote a newline character"
+"include a quote like this \" and a backslash like this \\"
+# Bad string literals below:
+"unterminated
+"also unterminated \"
+"backslash followed by space: \ is not allowed"
+"bad escaped character: \a AND not terminated
