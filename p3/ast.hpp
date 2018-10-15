@@ -275,6 +275,78 @@ protected:
 	ExpNode* myExpR;
 };
 
+class PlusNode : public BinaryExpNode{
+public:
+	PlusNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class MinusNode : public BinaryExpNode{
+public:
+	MinusNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class TimesNode : public BinaryExpNode{
+public:
+	TimesNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class DivideNode : public BinaryExpNode{
+public:
+	DivideNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class AndNode : public BinaryExpNode{
+public:
+	AndNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class OrNode : public BinaryExpNode{
+public:
+	OrNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class EqualsNode : public BinaryExpNode{
+public:
+	EqualsNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class NotEqualsNode : public BinaryExpNode{
+public:
+	NotEqualsNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class LessNode : public BinaryExpNode{
+public:
+	LessNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class GreaterNode : public BinaryExpNode{
+public:
+	GreaterNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class LessEqNode : public BinaryExpNode{
+public:
+	LessEqNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class GreaterEqNode : public BinaryExpNode{
+public:
+	GreaterEqNode(ExpNode * expL, ExpNode * expR) : BinaryExpNode(expL, expR){}
+	void unparse(std::ostream& out, int indent);
+};
+
 class VarDeclNode : public DeclNode{
 public:
 	VarDeclNode(TypeNode * type, IdNode * id, int size) : DeclNode(){

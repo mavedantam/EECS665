@@ -118,6 +118,90 @@ void NotNode::unparse(std::ostream& out, int indent){
 	out << ")";
 }
 
+void PlusNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " + ";
+	myExpR->unparse(out, 0);
+}
+
+void MinusNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " - ";
+	myExpR->unparse(out, 0);
+}
+
+void TimesNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " * ";
+	myExpR->unparse(out, 0);
+}
+
+void DivideNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " / ";
+	myExpR->unparse(out, 0);
+}
+
+void AndNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " && ";
+	myExpR->unparse(out, 0);
+}
+
+void OrNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " || ";
+	myExpR->unparse(out, 0);
+}
+
+void EqualsNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " == ";
+	myExpR->unparse(out, 0);
+}
+
+void NotEqualsNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " != ";
+	myExpR->unparse(out, 0);
+}
+
+void LessNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " < ";
+	myExpR->unparse(out, 0);
+}
+
+void GreaterNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " > ";
+	myExpR->unparse(out, 0);
+}
+
+void LessEqNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " <= ";
+	myExpR->unparse(out, 0);
+}
+
+void GreaterEqNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " >= ";
+	myExpR->unparse(out, 0);
+}
+
 void IdNode::unparse(std::ostream& out, int indent){
 	out << myStrVal;
 }
