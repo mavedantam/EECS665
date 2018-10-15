@@ -208,8 +208,8 @@ private:
 
 class StrLitNode : public ExpNode{
 public:
-	StrLitNode(std::string strVal) : ExpNode(){
-		myStrVal = strVal;
+	StrLitNode(std::string * strVal) : ExpNode(){
+		myStrVal = *strVal;
 	}
 	void unparse(std::ostream& out, int indent);
 private:
