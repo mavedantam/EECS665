@@ -87,7 +87,6 @@ void DotAccessNode::unparse(std::ostream& out, int indent){
 	myExp->unparse(out, 0);
 	out << ".";
 	myId->unparse(out, 0);
-	out << "\n";
 }
 
 void AssignNode::unparse(std::ostream& out, int indent){
@@ -95,7 +94,6 @@ void AssignNode::unparse(std::ostream& out, int indent){
 	myExpL->unparse(out, 0);
 	out << " = ";
 	myExpR->unparse(out, 0);
-	out << "\n";
 }
 
 void CallExpNode::unparse(std::ostream& out, int indent){
@@ -103,7 +101,21 @@ void CallExpNode::unparse(std::ostream& out, int indent){
 	myId->unparse(out, 0);
 	out << "(";
 	myExpList->unparse(out, 0);
-	out << ")\n";
+	out << ")";
+}
+
+void UnaryMinusNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "(-";
+	myExp->unparse(out, 0);
+	out << ")";
+}
+
+void NotNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "!(";
+	myExp->unparse(out, 0);
+	out << ")";
 }
 
 void IdNode::unparse(std::ostream& out, int indent){

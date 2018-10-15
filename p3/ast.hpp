@@ -246,9 +246,21 @@ public:
 	UnaryExpNode(ExpNode * expression) : ExpNode(){
 		myExp = expression;
 	}
-	virtual void unparse(std::ostream& out, int indent);
-private:
+	virtual void unparse(std::ostream& out, int indent) = 0;
+protected:
 	ExpNode* myExp;
+};
+
+class UnaryMinusNode : public UnaryExpNode{
+public:
+	UnaryMinusNode(ExpNode * expression) : UnaryExpNode(expression){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class NotNode : public UnaryExpNode{
+public:
+	NotNode(ExpNode * expression) : UnaryExpNode(expression){}
+	void unparse(std::ostream& out, int indent);
 };
 
 class BinaryExpNode : public ExpNode{
@@ -257,8 +269,8 @@ public:
 		myExpL = expL;
 		myExpR = expR;
 	}
-	virtual void unparse(std::ostream& out, int indent);
-private:
+	virtual void unparse(std::ostream& out, int indent) = 0;
+protected:
 	ExpNode* myExpL;
 	ExpNode* myExpR;
 };
