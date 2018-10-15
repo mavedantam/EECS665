@@ -202,6 +202,22 @@ void GreaterEqNode::unparse(std::ostream& out, int indent){
 	myExpR->unparse(out, 0);
 }
 
+void IntLitNode::unparse(std::ostream& out, int indent){
+	out << myVal;
+}
+
+void StrLitNode::unparse(std::ostream& out, int indent){
+	out << myStrVal;
+}
+
+void TrueNode::unparse(std::ostream& out, int indent){
+	out << "true";
+}
+
+void FalseNode::unparse(std::ostream& out, int indent){
+	out << "false";
+}
+
 void IdNode::unparse(std::ostream& out, int indent){
 	out << myStrVal;
 }

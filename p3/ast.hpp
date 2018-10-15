@@ -196,9 +196,42 @@ private:
 	std::list<ExpNode *> myExps;
 };
 
+class IntLitNode : public ExpNode{
+public:
+	IntLitNode(int value) : ExpNode(){
+		myVal = value;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	int myVal;
+};
+
+class StrLitNode : public ExpNode{
+public:
+	StrLitNode(std::string strVal) : ExpNode(){
+		myStrVal = strVal;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	std::string myStrVal;
+};
+
+class TrueNode : public ExpNode{
+public:
+	TrueNode() : ExpNode(){}
+	void unparse(std::ostream& out, int indent);
+};
+
+class FalseNode : public ExpNode{
+public:
+	FalseNode() : ExpNode(){}
+	void unparse(std::ostream& out, int indent);
+};
+
 class IdNode : public ExpNode{
 public:
 	IdNode(IDToken * token) : ExpNode(){
+		myStrVal = token->value();
 	}
 	void unparse(std::ostream& out, int indent);
 private:
