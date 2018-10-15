@@ -22,6 +22,14 @@ void VarDeclNode::unparse(std::ostream& out, int indent){
 	out << "\n";
 }
 
+void StmtListNode::unparse(std::ostream& out, int indent){
+	for (std::list<StmtNode *>::iterator it=myStmts.begin();
+		it != myStmts.end(); ++it){
+	    StmtNode * elt = *it;
+	    elt->unparse(out, indent);
+	}
+}
+
 void FnDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
 	myType->unparse(out, 0);
@@ -32,6 +40,14 @@ void FnDeclNode::unparse(std::ostream& out, int indent){
 	out << " ";
 	myFnBody->unparse(out, 0);
 	out << "\n";
+}
+
+void FormalsListNode::unparse(std::ostream& out, int indent){
+	for (std::list<FormalDeclNode *>::iterator it=myFormals.begin();
+		it != myFormals.end(); ++it){
+	    FormalDeclNode * elt = *it;
+	    elt->unparse(out, indent);
+	}
 }
 
 void FormalDeclNode::unparse(std::ostream& out, int indent){

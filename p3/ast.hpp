@@ -129,29 +129,12 @@ private:
 
 class DeclListNode : public ASTNode{
 public:
-	DeclListNode(std::list<DeclNode *> * decls) : ASTNode(){ myDecls = *decls;
+	DeclListNode(std::list<DeclNode *> * decls) : ASTNode(){
+		myDecls = *decls;
 	}
 	void unparse(std::ostream& out, int indent);
 private:
 	std::list<DeclNode *> myDecls;
-};
-
-class FormalsListNode : public ASTNode{
-public:
-	FormalsListNode(std::list<FormalDeclNode *> * formals) : ASTNode(){ myFormals = *formals;
-	}
-	void unparse(std::ostream& out, int indent);
-private:
-	std::list<FormalDeclNode *> myFormals;
-};
-
-class StmtListNode : public ASTNode{
-public:
-	StmtListNode(std::list<StmtNode *> * stmts) : ASTNode(){ myStmts = *stmts;
-	}
-	void unparse(std::ostream& out, int indent);
-private:
-	std::list<StmtNode *> myStmts;
 };
 
 class DeclNode : public ASTNode{
@@ -159,9 +142,41 @@ public:
 	virtual void unparse(std::ostream& out, int indent) = 0;
 };
 
+class FormalDeclNode : public DeclNode{
+public:
+	FormalDeclNode(TypeNode * type, IdNode * id) : DeclNode(){
+		myType = type;
+		myId = id;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	TypeNode * myType;
+	IdNode * myId;
+};
+
+class FormalsListNode : public ASTNode{
+public:
+	FormalsListNode(std::list<FormalDeclNode *> * formals) : ASTNode(){
+		myFormals = *formals;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	std::list<FormalDeclNode *> myFormals;
+};
+
 class StmtNode : public ASTNode{
 public:
 	virtual void unparse(std::ostream& out, int indent) = 0;
+};
+
+class StmtListNode : public ASTNode{
+public:
+	StmtListNode(std::list<StmtNode *> * stmts) : ASTNode(){
+		myStmts = *stmts;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	std::list<StmtNode *> myStmts;
 };
 
 class VarDeclNode : public DeclNode{
@@ -180,6 +195,18 @@ private:
 	int mySize;
 };
 
+class FnBodyNode : public DeclNode{
+public:
+	FnBodyNode(DeclListNode * declList, StmtListNode * stmtList) : DeclNode(){
+		myDeclList = declList;
+		myStmtList = stmtList;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	DeclListNode * myDeclList;
+	StmtListNode * myStmtList;
+};
+
 class FnDeclNode : public DeclNode{
 public:
 	FnDeclNode(TypeNode * type, IdNode * id, FormalsListNode * formalsList, FnBodyNode * fnBody) : DeclNode(){
@@ -194,30 +221,6 @@ private:
 	IdNode * myId;
 	FormalsListNode * myFormalsList;
 	FnBodyNode * myFnBody;
-};
-
-class FormalDeclNode : public DeclNode{
-public:
-	FormalDeclNode(TypeNode * type, IdNode * id) : DeclNode(){
-		myType = type;
-		myId = id;
-	}
-	void unparse(std::ostream& out, int indent);
-private:
-	TypeNode * myType;
-	IdNode * myId;
-};
-
-class FnBodyNode : public DeclNode{
-public:
-	FnBodyNode(DeclListNode * declList, StmtListNode * stmtList) : DeclNode(){
-		myDeclList = declList;
-		myStmtList = stmtList;
-	}
-	void unparse(std::ostream& out, int indent);
-private:
-	DeclListNode * myDeclList;
-	StmtListNode * myStmtList;
 };
 
 class StructDeclNode : public DeclNode{
