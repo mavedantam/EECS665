@@ -30,6 +30,14 @@ void StmtListNode::unparse(std::ostream& out, int indent){
 	}
 }
 
+void ExpListNode::unparse(std::ostream& out, int indent){
+	for (std::list<ExpNode *>::iterator it=myExps.begin();
+		it != myExps.end(); ++it){
+	    ExpNode * elt = *it;
+	    elt->unparse(out, indent);
+	}
+}
+
 void FnDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
 	myType->unparse(out, 0);

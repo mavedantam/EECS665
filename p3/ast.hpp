@@ -179,6 +179,21 @@ private:
 	std::list<StmtNode *> myStmts;
 };
 
+class ExpNode : public ASTNode{
+public:
+	virtual void unparse(std::ostream& out, int indent) = 0;
+};
+
+class ExpListNode : public ASTNode{
+public:
+	ExpListNode(std::list<ExpNode *> * exps) : ASTNode(){
+		myExps = *exps;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	std::list<ExpNode *> myExps;
+};
+
 class VarDeclNode : public DeclNode{
 public:
 	VarDeclNode(TypeNode * type, IdNode * id, int size) : DeclNode(){
