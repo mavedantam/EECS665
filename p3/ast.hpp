@@ -181,6 +181,8 @@ private:
 
 class ExpNode : public ASTNode{
 public:
+	ExpNode() : ASTNode(){
+	}
 	virtual void unparse(std::ostream& out, int indent) = 0;
 };
 
@@ -192,6 +194,73 @@ public:
 	void unparse(std::ostream& out, int indent);
 private:
 	std::list<ExpNode *> myExps;
+};
+
+class IdNode : public ExpNode{
+public:
+	IdNode(IDToken * token) : ExpNode(){
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	std::string myStrVal;
+};
+
+class DotAccessNode : public ExpNode{
+public:
+	DotAccessNode(ExpNode * expression, IdNode* id) : ExpNode(){
+		myExp = expression;
+		myId = id;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+	IdNode* myId;
+};
+
+class AssignNode : public ExpNode{
+public:
+	AssignNode(ExpNode * expL, ExpNode* expR) : ExpNode(){
+		myExpL = expL;
+		myExpR = expR;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExpL;
+	ExpNode* myExpR;
+};
+
+class CallExpNode : public ExpNode{
+public:
+	CallExpNode(IdNode* id, ExpListNode * expList) : ExpNode(){
+		myExpList = expList;
+		myId = id;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpListNode* myExpList;
+	IdNode* myId;
+};
+
+class UnaryExpNode : public ExpNode{
+public:
+	UnaryExpNode(ExpNode * expression) : ExpNode(){
+		myExp = expression;
+	}
+	virtual void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+};
+
+class BinaryExpNode : public ExpNode{
+public:
+	BinaryExpNode(ExpNode * expL, ExpNode* expR) : ExpNode(){
+		myExpL = expL;
+		myExpR = expR;
+	}
+	virtual void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExpL;
+	ExpNode* myExpR;
 };
 
 class VarDeclNode : public DeclNode{
@@ -255,15 +324,6 @@ public:
 	TypeNode() : ASTNode(){
 	}
 	virtual void unparse(std::ostream& out, int indent) = 0;
-};
-
-class IdNode : public TypeNode{
-public:
-	IdNode(IDToken * token) : TypeNode(){
-	}
-	void unparse(std::ostream& out, int indent);
-private:
-	std::string myStrVal;
 };
 
 class IntNode : public TypeNode{

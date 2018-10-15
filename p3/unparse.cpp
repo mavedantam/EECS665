@@ -82,6 +82,30 @@ void StructDeclNode::unparse(std::ostream& out, int indent){
 	out << "\n";
 }
 
+void DotAccessNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExp->unparse(out, 0);
+	out << ".";
+	myId->unparse(out, 0);
+	out << "\n";
+}
+
+void AssignNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " = ";
+	myExpR->unparse(out, 0);
+	out << "\n";
+}
+
+void CallExpNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myId->unparse(out, 0);
+	out << "(";
+	myExpList->unparse(out, 0);
+	out << ")\n";
+}
+
 void IdNode::unparse(std::ostream& out, int indent){
 	out << myStrVal;
 }
