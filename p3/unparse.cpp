@@ -16,10 +16,10 @@ void DeclListNode::unparse(std::ostream& out, int indent){
 
 void VarDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
-	myType->unparse(out, 0);
+	myType->unparse(out, indent);
 	out << " ";
 	myId->unparse(out, 0);
-	out << "\n";
+	out << ";\n";
 }
 
 void StmtListNode::unparse(std::ostream& out, int indent){
@@ -76,10 +76,11 @@ void FnBodyNode::unparse(std::ostream& out, int indent){
 
 void StructDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "struct ";
 	myId->unparse(out, 0);
-	out << " ";
-	myDeclList->unparse(out, 0);
-	out << "\n";
+	out << " {\n";
+	myDeclList->unparse(out, 1);
+	out << "};\n";
 }
 
 void DotAccessNode::unparse(std::ostream& out, int indent){

@@ -112,6 +112,15 @@
 %token               GREATEREQ
 %token               ASSIGN
 
+%right               ASSIGN
+%left                OR
+%left                AND
+%nonassoc            EQUALS NOTEQUALS LESS GREATER GREATEREQ LESSEQ
+%left                PLUS MINUS
+%left                TIMES DIVIDE
+%left                DOT
+%precedence          UNARYPREC
+
 /* Nonterminals
 *  NOTE: You will need to add more nonterminals
 *  to this list as you add productions to the grammar
@@ -190,9 +199,9 @@ structBody : structBody varDecl {
     $$ = $1;
  }
                 | varDecl {
-    std::list<DeclNode*> list;
-    list.push_back($1);
-    $$ = &list;
+    std::list<DeclNode*>* list = new std::list<DeclNode*>();
+    list->push_back($1);
+    $$ = list;
                 }
 ;
 
@@ -204,7 +213,7 @@ stmtList : stmtList stmt {
   | /* epsilon */ { $$ = new std::list<StmtNode *>(); }
 ;
 
-stmt : assignExp SEMICOLON {} ;
+stmt : assignExp SEMICOLON {$$ = new AssignStmtNode($1);} ;
 
 assignExp : loc ASSIGN exp { $$ = new AssignNode($1, $3);} ;
 
@@ -213,7 +222,7 @@ exp : assignExp { $$ = $1; }
   | exp MINUS exp { $$ = new MinusNode($1, $3); }
   | exp TIMES exp { $$ = new TimesNode($1, $3); }
   | exp DIVIDE exp { $$ = new DivideNode($1, $3); }
-  | NOT exp { $$ = new NotNode($2); }
+  | NOT exp %prec UNARYPREC { $$ = new NotNode($2); }
   | exp AND exp { $$ = new AndNode($1, $3); }
   | exp OR exp { $$ = new OrNode($1, $3); }
   | exp EQUALS exp { $$ = new EqualsNode($1, $3); }
@@ -222,7 +231,7 @@ exp : assignExp { $$ = $1; }
   | exp GREATER exp { $$ = new GreaterNode($1, $3); }
   | exp LESSEQ exp { $$ = new LessEqNode($1, $3); }
   | exp GREATEREQ exp { $$ = new GreaterEqNode($1, $3); }
-  | MINUS term { $$ = new UnaryMinusNode($2); }
+  | MINUS term %prec UNARYPREC { $$ = new UnaryMinusNode($2); }
   | term { $$ = $1; }
 ;
 
@@ -239,7 +248,11 @@ fncall : id LPAREN RPAREN { $$ = new CallExpNode($1, new ExpListNode(new std::li
   | id LPAREN actualList RPAREN { $$ = new CallExpNode($1, new ExpListNode($3)); }
 ;
 
-actualList : exp { $$ = (new std::list<StmtNode *>())->push_front($1); }
+actualList : exp {
+              std::list<ExpNode *> nodeList;
+              nodeList.push_front($1);
+              $$ = &nodeList;
+              }
   | actualList COMMA exp { $1->push_front($3); $$ = $1; }
 ;
 
