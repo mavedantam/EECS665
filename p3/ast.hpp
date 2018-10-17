@@ -463,11 +463,6 @@ public:
 	}
 	void unparse(std::ostream& out, int indent);
 };
-	
-class StmtNode : public ASTNode{
-public:
-	virtual void unparse(std::ostream& out, int indent) = 0;
-};
 
 class AssignStmtNode : public StmtNode{
 public:
