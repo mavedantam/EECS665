@@ -1,2 +1,13 @@
 int x;
 int y;
+struct z {
+  int v;
+  bool u;
+};
+
+void func() {
+  int i;
+  int b;
+  b = 10;
+  i = b;
+}

@@ -16,16 +16,24 @@ void DeclListNode::unparse(std::ostream& out, int indent){
 
 void VarDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
-	myType->unparse(out, 0);
+	myType->unparse(out, indent);
 	out << " ";
 	myId->unparse(out, 0);
-	out << "\n";
+	out << ";\n";
 }
 
 void StmtListNode::unparse(std::ostream& out, int indent){
 	for (std::list<StmtNode *>::iterator it=myStmts.begin();
 		it != myStmts.end(); ++it){
 	    StmtNode * elt = *it;
+	    elt->unparse(out, indent);
+	}
+}
+
+void ExpListNode::unparse(std::ostream& out, int indent){
+	for (std::list<ExpNode *>::iterator it=myExps.begin();
+		it != myExps.end(); ++it){
+	    ExpNode * elt = *it;
 	    elt->unparse(out, indent);
 	}
 }
@@ -68,10 +76,147 @@ void FnBodyNode::unparse(std::ostream& out, int indent){
 
 void StructDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "struct ";
 	myId->unparse(out, 0);
-	out << " ";
-	myDeclList->unparse(out, 0);
-	out << "\n";
+	out << " {\n";
+	myDeclList->unparse(out, 1);
+	out << "};\n";
+}
+
+void DotAccessNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExp->unparse(out, 0);
+	out << ".";
+	myId->unparse(out, 0);
+}
+
+void AssignNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " = ";
+	myExpR->unparse(out, 0);
+}
+
+void CallExpNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myId->unparse(out, 0);
+	out << "(";
+	myExpList->unparse(out, 0);
+	out << ")";
+}
+
+void UnaryMinusNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "(-";
+	myExp->unparse(out, 0);
+	out << ")";
+}
+
+void NotNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "!(";
+	myExp->unparse(out, 0);
+	out << ")";
+}
+
+void PlusNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " + ";
+	myExpR->unparse(out, 0);
+}
+
+void MinusNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " - ";
+	myExpR->unparse(out, 0);
+}
+
+void TimesNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " * ";
+	myExpR->unparse(out, 0);
+}
+
+void DivideNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " / ";
+	myExpR->unparse(out, 0);
+}
+
+void AndNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " && ";
+	myExpR->unparse(out, 0);
+}
+
+void OrNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " || ";
+	myExpR->unparse(out, 0);
+}
+
+void EqualsNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " == ";
+	myExpR->unparse(out, 0);
+}
+
+void NotEqualsNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " != ";
+	myExpR->unparse(out, 0);
+}
+
+void LessNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " < ";
+	myExpR->unparse(out, 0);
+}
+
+void GreaterNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " > ";
+	myExpR->unparse(out, 0);
+}
+
+void LessEqNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " <= ";
+	myExpR->unparse(out, 0);
+}
+
+void GreaterEqNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExpL->unparse(out, 0);
+	out << " >= ";
+	myExpR->unparse(out, 0);
+}
+
+void IntLitNode::unparse(std::ostream& out, int indent){
+	out << myVal;
+}
+
+void StrLitNode::unparse(std::ostream& out, int indent){
+	out << myStrVal;
+}
+
+void TrueNode::unparse(std::ostream& out, int indent){
+	out << "true";
+}
+
+void FalseNode::unparse(std::ostream& out, int indent){
+	out << "false";
 }
 
 void IdNode::unparse(std::ostream& out, int indent){

@@ -44,10 +44,8 @@
 
 /*%define api.value.type variant*/
 %union {
-	/*
 	int intVal;
 	std::string * strVal;
-	*/
 	LILC::SynSymbol * symbolValue;
 	LILC::IDToken * idTokenValue;
 	LILC::ASTNode * astNode;
@@ -63,6 +61,8 @@
   LILC::StmtNode * stmtNode;
   std::list<FormalDeclNode *> * formalsListNode;
   LILC::FnBodyNode * fnBodyNode;
+  LILC::ExpNode * expNode;
+  std::list<ExpNode *> * expNodeList;
 	/*LILC::Token * token;*/
 }
 
@@ -84,8 +84,8 @@
 %token               WHILE
 %token               RETURN
 %token <idTokenValue> ID
-%token               INTLITERAL
-%token               STRINGLITERAL
+%token <intVal>      INTLITERAL
+%token <strVal>      STRINGLITERAL
 %token               LCURLY
 %token               RCURLY
 %token               LPAREN
@@ -112,6 +112,15 @@
 %token               GREATEREQ
 %token               ASSIGN
 
+%right               ASSIGN
+%left                OR
+%left                AND
+%nonassoc            EQUALS NOTEQUALS LESS GREATER GREATEREQ LESSEQ
+%left                PLUS MINUS
+%left                TIMES DIVIDE
+%left                DOT
+%precedence          UNARYPREC
+
 /* Nonterminals
 *  NOTE: You will need to add more nonterminals
 *  to this list as you add productions to the grammar
@@ -131,6 +140,12 @@
 %type <stmtNode> stmt
 %type <typeNode> type
 %type <idNode> id
+%type <expNode> assignExp
+%type <expNode> exp
+%type <expNode> term
+%type <expNode> fncall
+%type <expNodeList> actualList
+%type <expNode> loc
 
 
 /* NOTE: Make sure to add precedence and associativity
@@ -158,42 +173,99 @@ declList : declList decl {
 decl : varDecl { $$ = $1; }
           | fnDecl { }
           | structDecl { $$ = $1; }
+;
 
 varDeclList : varDeclList varDecl {
 				$1->push_back($2);
 				$$=$1;
 				}
 	| /* epsilon */ { $$ = new std::list<DeclNode *>(); }
+;
 
 varDecl : type id SEMICOLON {
 		$$ = new VarDeclNode($1, $2, VarDeclNode::NOT_STRUCT);
 			    }
+;
 
-fnDecl : type id formals fnBody { $$ = new FnDeclNode($1, $2, new FormalsListNode($3), $4); }
-formals : LPAREN RPAREN { $$ = new std::list<FormalDeclNode *>(); }
+fnDecl : type id formals fnBody { $$ = new FnDeclNode($1, $2, new FormalsListNode($3), $4); } ;
+formals : LPAREN RPAREN { $$ = new std::list<FormalDeclNode *>(); } ;
 structDecl : STRUCT id LCURLY structBody RCURLY SEMICOLON {
     $$ = new StructDeclNode(new DeclListNode($4), $2);
           }
+;
+
 structBody : structBody varDecl {
     $1->push_back($2);
     $$ = $1;
  }
                 | varDecl {
-    std::list<DeclNode*> list;
-    list.push_back($1);
-    $$ = &list;
+    std::list<DeclNode*>* list = new std::list<DeclNode*>();
+    list->push_back($1);
+    $$ = list;
                 }
-fnBody : LCURLY varDeclList stmtList RCURLY { $$ = new FnBodyNode(new DeclListNode($2), new StmtListNode($3)); }
+;
+
+fnBody : LCURLY varDeclList stmtList RCURLY { $$ = new FnBodyNode(new DeclListNode($2), new StmtListNode($3)); } ;
 stmtList : stmtList stmt {
     $1->push_back($2);
     $$ = $1;
 }
   | /* epsilon */ { $$ = new std::list<StmtNode *>(); }
-stmt : RETURN SEMICOLON {}
+;
+
+stmt : assignExp SEMICOLON {$$ = new AssignStmtNode($1);} ;
+
+assignExp : loc ASSIGN exp { $$ = new AssignNode($1, $3);} ;
+
+exp : assignExp { $$ = $1; }
+  | exp PLUS exp { $$ = new PlusNode($1, $3); }
+  | exp MINUS exp { $$ = new MinusNode($1, $3); }
+  | exp TIMES exp { $$ = new TimesNode($1, $3); }
+  | exp DIVIDE exp { $$ = new DivideNode($1, $3); }
+  | NOT exp %prec UNARYPREC { $$ = new NotNode($2); }
+  | exp AND exp { $$ = new AndNode($1, $3); }
+  | exp OR exp { $$ = new OrNode($1, $3); }
+  | exp EQUALS exp { $$ = new EqualsNode($1, $3); }
+  | exp NOTEQUALS exp { $$ = new NotEqualsNode($1, $3); }
+  | exp LESS exp { $$ = new LessNode($1, $3); }
+  | exp GREATER exp { $$ = new GreaterNode($1, $3); }
+  | exp LESSEQ exp { $$ = new LessEqNode($1, $3); }
+  | exp GREATEREQ exp { $$ = new GreaterEqNode($1, $3); }
+  | MINUS term %prec UNARYPREC { $$ = new UnaryMinusNode($2); }
+  | term { $$ = $1; }
+;
+
+term : loc { $$ = $1; }
+  | INTLITERAL { $$ = new IntLitNode($1); }
+  | STRINGLITERAL { $$ = new StrLitNode($1); }
+  | TRUE { $$ = new TrueNode(); }
+  | FALSE { $$ = new FalseNode(); }
+  | LPAREN exp RPAREN { $$ = $2; }
+  | fncall { $$ = $1; }
+;
+
+fncall : id LPAREN RPAREN { $$ = new CallExpNode($1, new ExpListNode(new std::list<ExpNode *>())); }
+  | id LPAREN actualList RPAREN { $$ = new CallExpNode($1, new ExpListNode($3)); }
+;
+
+actualList : exp {
+              std::list<ExpNode *> nodeList;
+              nodeList.push_front($1);
+              $$ = &nodeList;
+              }
+  | actualList COMMA exp { $1->push_front($3); $$ = $1; }
+;
+
 type : INT { $$ = new IntNode(); }
   | BOOL { $$ = new BoolNode(); }
   | VOID { $$ = new VoidNode(); }
-id : ID { $$ = new IdNode($1); }
+;
+
+loc : id { $$ = $1; }
+  | loc DOT id { $$ = new DotAccessNode($1, $3); }
+;
+
+id : ID { $$ = new IdNode($1); } ;
 %%
 void
 LILC::LilC_Parser::error(const std::string &err_message )
