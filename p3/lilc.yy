@@ -62,6 +62,7 @@
   std::list<FormalDeclNode *> * formalsListNode;
   LILC::FnBodyNode * fnBodyNode;
   LILC::ExpNode * expNode;
+  LILC::AssignNode * assignNode;
   std::list<ExpNode *> * expNodeList;
 	/*LILC::Token * token;*/
 }
@@ -140,7 +141,7 @@
 %type <stmtNode> stmt
 %type <typeNode> type
 %type <idNode> id
-%type <expNode> assignExp
+%type <assignNode> assignExp
 %type <expNode> exp
 %type <expNode> term
 %type <expNode> fncall
