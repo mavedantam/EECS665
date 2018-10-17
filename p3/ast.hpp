@@ -463,6 +463,127 @@ public:
 	}
 	void unparse(std::ostream& out, int indent);
 };
+	
+class StmtNode : public ASTNode{
+public:
+	virtual void unparse(std::ostream& out, int indent) = 0;
+};
+
+class AssignStmtNode : public StmtNode{
+public:
+	AssignStmtNode(AssignNode* assignNode): StmtNode(){
+		myAssignNode = assignNode;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	AssignNode* myAssignNode;
+};
+
+class PostIncStmtNode : public StmtNode{
+public:
+	PostIncStmtNode(ExpNode* exp): StmtNode(){
+		myExp = exp;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+};
+
+class PostDecStmtNode : public StmtNode{
+public:
+	PostDecStmtNode(ExpNode* exp): StmtNode(){
+		myExp = exp;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+};
+
+class ReadStmtNode : public StmtNode{
+public:
+	ReadStmtNode(ExpNode* exp): StmtNode(){
+		myExp = exp;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+};
+
+class WriteStmtNode : public StmtNode{
+public:
+	WriteStmtNode(ExpNode* exp): StmtNode(){
+		myExp = exp;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+};
+
+class IfStmtNode : public StmtNode{
+public:
+	IfStmtNode(ExpNode* exp, DeclListNode* declList, StmtListNode* stmtList): StmtNode(){
+		myExp = exp;
+		myDeclList = declList;
+		myStmtList = stmtList;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+	DeclListNode* myDeclList;
+	StmtListNode* myStmtList;
+};
+
+class IfElseStmtNode : public StmtNode{
+public:
+	IfElseStmtNode(ExpNode* exp, DeclListNode* declList, StmtListNode* stmtList, DeclListNode* declList2, StmtListNode* stmtList2): StmtNode(){
+		myExp = exp;
+		myDeclList = declList;
+		myStmtList = stmtList;
+		myDeclList2 = declList2;
+		myStmtList2 = stmtList2;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+	DeclListNode* myDeclList;
+	StmtListNode* myStmtList;
+	DeclListNode* myDeclList2;
+	StmtListNode* myStmtList2;
+};
+
+class WhileStmtNode : public StmtNode{
+public:
+	WhileStmtNode(ExpNode* exp, DeclListNode* declList, StmtListNode* stmtList): StmtNode(){
+		myExp = exp;
+		myDeclList = declList;
+		myStmtList = stmtList;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+	DeclListNode* myDeclList;
+	StmtListNode* myStmtList;
+};
+
+class CallStmtNode : public StmtNode{
+public:
+	CallStmtNode(CallExpNode* call): StmtNode(){
+		myCall = call;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	CallExpNode* myCall;
+};
+
+class ReturnStmtNode : public StmtNode{
+public:
+	ReturnStmtNode(ExpNode* exp): StmtNode(){
+		myExp = exp;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	ExpNode* myExp;
+};
 
 } //End namespace LIL' C
 
