@@ -562,12 +562,12 @@ private:
 
 class CallStmtNode : public StmtNode{
 public:
-	CallStmtNode(CallExpNode* call): StmtNode(){
+	CallStmtNode(ExpNode* call): StmtNode(){
 		myCall = call;
 	}
 	void unparse(std::ostream& out, int indent);
 private:
-	CallExpNode* myCall;
+	ExpNode* myCall;
 };
 
 class ReturnStmtNode : public StmtNode{
