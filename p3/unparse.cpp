@@ -33,8 +33,10 @@ void StmtListNode::unparse(std::ostream& out, int indent){
 void ExpListNode::unparse(std::ostream& out, int indent){
 	for (std::list<ExpNode *>::iterator it=myExps.begin();
 		it != myExps.end(); ++it){
+			if(it != myExps.begin())
+				out << ", ";
 	    ExpNode * elt = *it;
-	    elt->unparse(out, indent);
+	    elt->unparse(out, 0);
 	}
 }
 
@@ -43,16 +45,18 @@ void FnDeclNode::unparse(std::ostream& out, int indent){
 	myType->unparse(out, 0);
 	out << " ";
 	myId->unparse(out, 0);
-	out << " ";
+	out << " (";
 	myFormalsList->unparse(out, 0);
-	out << " ";
-	myFnBody->unparse(out, 0);
-	out << "\n";
+	out << "){\n";
+	myFnBody->unparse(out, 1);
+	out << "}\n";
 }
 
 void FormalsListNode::unparse(std::ostream& out, int indent){
 	for (std::list<FormalDeclNode *>::iterator it=myFormals.begin();
 		it != myFormals.end(); ++it){
+			if(it != myFormals.begin())
+				out << ", ";
 	    FormalDeclNode * elt = *it;
 	    elt->unparse(out, indent);
 	}
@@ -63,13 +67,11 @@ void FormalDeclNode::unparse(std::ostream& out, int indent){
 	myType->unparse(out, 0);
 	out << " ";
 	myId->unparse(out, 0);
-	out << "\n";
 }
 
 void FnBodyNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
 	myDeclList->unparse(out, 0);
-	out << " ";
 	myStmtList->unparse(out, 0);
 	out << "\n";
 }
@@ -82,7 +84,7 @@ void StructDeclNode::unparse(std::ostream& out, int indent){
 	myDeclList->unparse(out, 1);
 	out << "};\n";
 }
-	
+
 void AssignStmtNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
 	myAssignNode->unparse(out, 0);
@@ -169,9 +171,11 @@ void ReturnStmtNode::unparse(std::ostream& out, int indent){
 
 void DotAccessNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExp->unparse(out, 0);
 	out << ".";
 	myId->unparse(out, 0);
+	out << ")";
 }
 
 void AssignNode::unparse(std::ostream& out, int indent){
@@ -205,86 +209,110 @@ void NotNode::unparse(std::ostream& out, int indent){
 
 void PlusNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " + ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void MinusNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " - ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void TimesNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " * ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void DivideNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " / ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void AndNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " && ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void OrNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " || ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void EqualsNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " == ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void NotEqualsNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " != ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void LessNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " < ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void GreaterNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " > ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void LessEqNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " <= ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void GreaterEqNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
+	out << "(";
 	myExpL->unparse(out, 0);
 	out << " >= ";
 	myExpR->unparse(out, 0);
+	out << ")";
 }
 
 void IntLitNode::unparse(std::ostream& out, int indent){
