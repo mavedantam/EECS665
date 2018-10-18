@@ -5,7 +5,7 @@ struct z {
   bool u;
 };
 
-int func(int i) {
+int func(int i, bool x) {
   int b;
   b = 10;
   i = b;
@@ -16,26 +16,35 @@ void main(){
   int x;
   int y;
   int z;
-  cin >> x;
-  cin >> y;
+  z = x + y - y * x / y * - x.y;
+  z = true && false || !true;
+  z = z * (x + y);
+  input >> x;
+  input >> y;
   z = x;
   z--;
-  func(z);
-  cout << z;
-  cout << "\n";
-  while (x < 10){
+  output << z;
+  output << "\n";
+  j = x < y;
+  j = x > y;
+  j = x <= y;
+  j = x >=y;
+  while (x){
    if (z != x){
-    cout << z;
-    cout << " is not equal to x.\n";
+    output << z;
+    output << " is not equal to x.\n";
    }
    else {
-    cout << z;
-    cout << " is equal to x.\n";
+    output << z;
+    output << " is equal to x.\n";
    }
    if (z == x) {
-    cout << z;
-    cout << " is equal to x.\n";
+    output << z;
+    output << " is equal to x.\n";
    }
    x++;
   }
+  func(10, b);
+  main();
+  return;
 }

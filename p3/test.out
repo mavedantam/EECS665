@@ -1,0 +1,50 @@
+int x;
+int y;
+struct z {
+ int v;
+ bool u;
+};
+int func (int i, bool x){
+ int b;
+b = 24413520;
+i = b;
+return i;
+
+}
+void main (){
+ int x;
+int y;
+int z;
+z = ((x + y) - (((y * x) / y) * (-(x.y))));
+z = ((true && false) || !(true));
+z = (z * (x + y));
+cin >> x;
+cin >> y;
+z = x;
+z--;
+cout << z;
+cout << ;
+j = (x < y);
+j = (x > y);
+j = (x <= y);
+j = (x >= y);
+while(x) {
+ if((z != x)){
+  cout << z;
+  cout << ;
+ }
+ else {
+  cout << z;
+  cout << ;
+ }
+ if((z == x)){
+  cout << z;
+  cout << ;
+ }
+ x++;
+}
+func(24432976, b);
+main();
+return;
+
+}

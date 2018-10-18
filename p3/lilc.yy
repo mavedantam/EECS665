@@ -203,7 +203,7 @@ formalsList : formalDecl {
               $$ = lFormal;
           }
           | formalDecl COMMA formalsList {
-              $3->push_back($1);
+              $3->push_front($1);
               $$ = $3;
           }
 ;
@@ -242,7 +242,6 @@ stmt : assignExp SEMICOLON {$$ = new AssignStmtNode($1);} ;
   | IF LPAREN exp RPAREN LCURLY varDeclList stmtList RCURLY { $$ = new IfStmtNode($3, new DeclListNode($6), new StmtListNode($7)); }
   | IF LPAREN exp RPAREN LCURLY varDeclList stmtList RCURLY ELSE LCURLY varDeclList stmtList RCURLY { $$ = new IfElseStmtNode($3, new DeclListNode($6), new StmtListNode($7), new DeclListNode($11), new StmtListNode($12)); }
   | WHILE LPAREN exp RPAREN LCURLY varDeclList stmtList RCURLY { $$ = new WhileStmtNode($3, new DeclListNode($6), new StmtListNode($7)); }
-  | WHILE LPAREN exp RPAREN LCURLY varDeclList stmtList RCURLY { $$ = new WhileStmtNode($3, new DeclListNode($6), new StmtListNode($7));}
 	| RETURN exp SEMICOLON { $$ = new ReturnStmtNode($2); }
 	| RETURN SEMICOLON { $$ = new ReturnStmtNode(nullptr);}
 	| fncall SEMICOLON { $$ = new CallStmtNode($1); }
@@ -281,11 +280,11 @@ fncall : id LPAREN RPAREN { $$ = new CallExpNode($1, new ExpListNode(new std::li
 ;
 
 actualList : exp {
-              std::list<ExpNode *> nodeList;
-              nodeList.push_front($1);
-              $$ = &nodeList;
+              std::list<ExpNode *> * nodeList = new std::list<ExpNode *>();
+              nodeList->push_front($1);
+              $$ = nodeList;
               }
-  | actualList COMMA exp { $1->push_front($3); $$ = $1; }
+  | actualList COMMA exp { $1->push_back($3); $$ = $1; }
 ;
 
 type : INT { $$ = new IntNode(); }

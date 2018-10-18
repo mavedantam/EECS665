@@ -105,14 +105,14 @@ void PostDecStmtNode::unparse(std::ostream& out, int indent){
 
 void ReadStmtNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
-	out << "cout << ";
+	out << "cin >> ";
 	myExp->unparse(out, 0);
 	out << ";\n";
 }
 
 void WriteStmtNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
-	out << "cin >> ";
+	out << "cout << ";
 	myExp->unparse(out, 0);
 	out << ";\n";
 }
@@ -164,8 +164,12 @@ void CallStmtNode::unparse(std::ostream& out, int indent){
 
 void ReturnStmtNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
-	out<<"return ";
-	myExp->unparse(out, 0);
+	out<<"return";
+	if(myExp != nullptr)
+	{
+		out << " ";
+		myExp->unparse(out, 0);
+	}
 	out<<";\n";
 }
 
