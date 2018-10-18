@@ -464,6 +464,16 @@ public:
 	void unparse(std::ostream& out, int indent);
 };
 
+class StructNode : public TypeNode{
+public:
+	StructNode(IdNode * id): TypeNode(){
+		myId = id;
+	}
+	void unparse(std::ostream& out, int indent);
+private:
+	IdNode * myId;
+};
+
 class AssignStmtNode : public StmtNode{
 public:
 	AssignStmtNode(AssignNode* assignNode): StmtNode(){

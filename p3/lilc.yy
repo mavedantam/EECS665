@@ -60,6 +60,7 @@
   std::list<StmtNode*> * stmtListNode;
   LILC::StmtNode * stmtNode;
   std::list<FormalDeclNode *> * formalsListNode;
+  LILC::FormalDeclNode * formalsDecl;
   LILC::FnBodyNode * fnBodyNode;
   LILC::ExpNode * expNode;
   LILC::AssignNode * assignNode;
@@ -136,6 +137,8 @@
 %type <fnDeclNode> fnDecl
 %type <fnBodyNode> fnBody
 %type <formalsListNode> formals
+%type <formalsListNode> formalsList
+%type <formalsDecl> formalDecl
 %type <declList> varDeclList
 %type <stmtListNode> stmtList
 %type <stmtNode> stmt
@@ -172,7 +175,7 @@ declList : declList decl {
 	;
 
 decl : varDecl { $$ = $1; }
-          | fnDecl { }
+          | fnDecl { $$ = $1; }
           | structDecl { $$ = $1; }
 ;
 
@@ -186,10 +189,27 @@ varDeclList : varDeclList varDecl {
 varDecl : type id SEMICOLON {
 		$$ = new VarDeclNode($1, $2, VarDeclNode::NOT_STRUCT);
 			    }
+          | STRUCT id id SEMICOLON { $$ = new VarDeclNode(new StructNode($2), $3, 1); }
 ;
 
 fnDecl : type id formals fnBody { $$ = new FnDeclNode($1, $2, new FormalsListNode($3), $4); } ;
-formals : LPAREN RPAREN { $$ = new std::list<FormalDeclNode *>(); } ;
+formals : LPAREN RPAREN { $$ = new std::list<FormalDeclNode *>(); }
+          | LPAREN formalsList RPAREN { $$ = $2; }
+;
+
+formalsList : formalDecl {
+              std::list<FormalDeclNode *> * lFormal = new std::list<FormalDeclNode *>();
+              lFormal->push_back($1);
+              $$ = lFormal;
+          }
+          | formalDecl COMMA formalsList {
+              $3->push_back($1);
+              $$ = $3;
+          }
+;
+
+formalDecl : type id { $$ = new FormalDeclNode($1, $2); } ;
+
 structDecl : STRUCT id LCURLY structBody RCURLY SEMICOLON {
     $$ = new StructDeclNode(new DeclListNode($4), $2);
           }
