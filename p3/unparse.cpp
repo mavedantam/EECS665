@@ -16,7 +16,7 @@ void DeclListNode::unparse(std::ostream& out, int indent){
 
 void VarDeclNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
-	myType->unparse(out, indent);
+	myType->unparse(out, 0);
 	out << " ";
 	myId->unparse(out, 0);
 	out << ";\n";
@@ -333,6 +333,11 @@ void FalseNode::unparse(std::ostream& out, int indent){
 
 void IdNode::unparse(std::ostream& out, int indent){
 	out << myStrVal;
+}
+
+void StructNode::unparse(std::ostream& out, int indent) {
+	out << "struct ";
+	out << myId;
 }
 
 void IntNode::unparse(std::ostream& out, int indent){
