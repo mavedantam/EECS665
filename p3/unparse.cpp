@@ -82,6 +82,90 @@ void StructDeclNode::unparse(std::ostream& out, int indent){
 	myDeclList->unparse(out, 1);
 	out << "};\n";
 }
+	
+void AssignStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myAssignNode->unparse(out, 0);
+	out << ";\n";
+}
+
+void PostIncStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExp->unparse(out, 0);
+	out << "++;\n";
+}
+
+void PostDecStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myExp->unparse(out, 0);
+	out << "--;\n";
+}
+
+void ReadStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "cout << ";
+	myExp->unparse(out, 0);
+	out << ";\n";
+}
+
+void WriteStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "cin >> ";
+	myExp->unparse(out, 0);
+	out << ";\n";
+}
+
+void IfStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "if(";
+	myExp->unparse(out, 0);
+	out<<"){\n";
+	myDeclList->unparse(out, indent+1);
+	myStmtList->unparse(out, indent+1);
+	doIndent(out,indent);
+	out << "}\n";
+}
+
+void IfElseStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out << "if(";
+	myExp->unparse(out, 0);
+	out<<"){\n";
+	myDeclList->unparse(out, indent+1);
+	myStmtList->unparse(out, indent+1);
+	doIndent(out,indent);
+	out << "}\n";
+	doIndent(out, indent);
+	out<< "else {\n";
+	myDeclList2->unparse(out, indent+1);
+	myStmtList2->unparse(out, indent+1);
+	doIndent(out, indent);
+	out<<"}\n";
+}
+
+void WhileStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out<< "while(";
+	myExp->unparse(out, 0);
+	out<<") {\n";
+	myDeclList->unparse(out, indent+1);
+	myStmtList->unparse(out, indent+1);
+	doIndent(out, indent);
+	out<<"}\n";
+}
+
+void CallStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	myCall->unparse(out, indent);
+	out<<";\n";
+}
+
+void ReturnStmtNode::unparse(std::ostream& out, int indent){
+	doIndent(out, indent);
+	out<<"return ";
+	myExp->unparse(out, 0);
+	out<<";\n";
+}
 
 void DotAccessNode::unparse(std::ostream& out, int indent){
 	doIndent(out, indent);
